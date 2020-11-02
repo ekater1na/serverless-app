@@ -1,0 +1,17 @@
+const AWS = require('aws-sdk');
+const docClient = new AWS.DynamoDB.DocumentClient({region: 'eu-west-1'});
+
+exports.handler = function (event, context, callback) {
+    
+    let scanningParams = {
+        TableName : 'InvoiceTable'
+    }
+    
+    docClient.scan(scanningParams, function(err, data){
+        if (err) {
+            callback(err, null);
+        } else {
+            callback(null, data.Items)
+        }
+    })
+};

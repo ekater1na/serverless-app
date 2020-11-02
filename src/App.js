@@ -9,47 +9,19 @@ class App extends Component {
     super(props);
     this.state = { 
       isLoading: false ,
-      invoices: [
-        {
-          "id" : "100",
-          "Vendor" : "Hankook",
-          "Amount" : "$200",
-          "Invoice" : "1125",
-          "Date" : "21/12/2012"
-        },
-
-        {
-          "id" : "200",
-          "Vendor" : "Hankook",
-          "Amount" : "$200",
-          "Invoice" : "1199",
-          "Date" : "20/12/2012",
-        },
-
-        {
-          "id" : "300",
-          "Vendor" : "Hankook",
-          "Amount" : "$200",
-          "Invoice" : "1825",
-          "Date" : "21/10/2012",
-        },
-        
-        {
-          "id" : "400",
-          "Vendor" : "Hankook",
-          "Invoice" : "1855",
-          "Amount" : "$250",
-          "Date" : "21/10/2012",
-        },
-      ]
+      invoices: [ ]
     }
   }
 
   remove(id){
-    console.log(id)
-    let updetedInvoices = [...this.state.invoices].filter(i => i.id !== id);
-    
-    this.setState({invoices : updetedInvoices});
+    let updateedInvoices = [...this.state.invoices].filter (i => i.id !== id)
+    this.setState({invoices : updateedInvoices});
+  }
+
+  async componentDidMount(){
+    const response = await fetch('https://w8g7ku86ol.execute-api.eu-west-1.amazonaws.com/Dev');
+    const body = await response.json();
+    this.setState({invoices : body, isLoading: false})
   }
 
   render() { 
@@ -65,11 +37,11 @@ class App extends Component {
         <td>{invoice.Invoice}</td>
         <td>{invoice.Amount}</td>
         <td>{invoice.Date}</td>
-        <td><Button className="btn btn-lg btn-success" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faThumbsUp} />OK</Button></td>
-        <td><Button className="btn btn-lg btn-danger" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faThumbsDown} />NOK</Button></td>
-        <td><Button className="btn btn-lg btn-info" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faMoneyCheckAlt}> /</FontAwesomeIcon>50%</Button></td>
-        <td><Button className="btn btn-lg btn-warning" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faSearchDollar}> /</FontAwesomeIcon>??</Button></td>
-        <td><Button className="btn btn-lg btn-info" onClick={()=> this.remove(invoice.id)}> <FontAwesomeIcon icon={faImage}> /</FontAwesomeIcon>Image</Button></td>
+        <td><Button className="btn btn-lg btn-success" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faThumbsUp} /> OK </Button></td>
+        <td><Button className="btn btn-lg btn-danger" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faThumbsDown} /> NOK </Button></td>
+        <td><Button className="btn btn-lg btn-info" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faMoneyCheckAlt}> /</FontAwesomeIcon> 50% </Button></td>
+        <td><Button className="btn btn-lg btn-warning" onClick={()=> this.remove(invoice.id)}><FontAwesomeIcon icon={faSearchDollar}> /</FontAwesomeIcon> ?? </Button></td>
+        <td><Button className="btn btn-lg btn-info" onClick={()=> this.remove(invoice.id)}> <FontAwesomeIcon icon={faImage}> /</FontAwesomeIcon> Image </Button></td>
       </tr>
       )
 
@@ -98,7 +70,7 @@ class App extends Component {
               </thead>
 
               <tbody>
-                {this.state.invoices.length === 0 ? <td colSpan="9">All caught up!</td> : invoices}
+                {this.state.invoices.length === 0 ? <td colSpan="9"> All caught up! </td> : invoices}
               </tbody>
 
             </Table>

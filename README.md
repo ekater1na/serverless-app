@@ -1,3 +1,7 @@
+#http://invoice-process-aws.s3-website-eu-west-1.amazonaws.com/
+
+Deploy: aws s3 sync build/ s3://invoice-process-aws
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
